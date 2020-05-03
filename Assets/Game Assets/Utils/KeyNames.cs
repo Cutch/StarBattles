@@ -1,0 +1,150 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+namespace StarBattles
+{
+    class KeyNames
+    {
+
+        static string[] lookup = new string[128];
+        static KeyNames()
+        {
+            lookup[0x00] = "None";
+            lookup[0x01] = "Start of Heading";
+            lookup[0x02] = "Start of Text";
+            lookup[0x03] = "End-of-text character";
+            lookup[0x04] = "End-of-transmission character";
+            lookup[0x05] = "Enquiry character";
+            lookup[0x06] = "Acknowledge character";
+            lookup[0x07] = "Bell character";
+            lookup[0x08] = "Backspace";
+            lookup[0x09] = "Tab";
+            lookup[0x0A] = "Line feed";
+            lookup[0x0B] = "Vertical tab";
+            lookup[0x0C] = "Form feed";
+            lookup[0x0D] = "Return";
+            lookup[0x0E] = "Shift Out";
+            lookup[0x0F] = "Shift In";
+            lookup[0x10] = "Data Link Escape";
+            lookup[0x11] = "Device Control 1";
+            lookup[0x12] = "Device Control 2";
+            lookup[0x13] = "Device Control 3";
+            lookup[0x14] = "Device Control 4";
+            lookup[0x15] = "Negative-acknowledge character";
+            lookup[0x16] = "Synchronous Idle";
+            lookup[0x17] = "End of Transmission Block";
+            lookup[0x18] = "Cancel character";
+            lookup[0x19] = "End of Medium";
+            lookup[0x1A] = "Substitute";
+            lookup[0x1B] = "Escape";
+            lookup[0x1C] = "File Separator";
+            lookup[0x1D] = "Group Separator";
+            lookup[0x1E] = "Record Separator";
+            lookup[0x1F] = "Unit Separator";
+            lookup[0x20] = "Space";
+            lookup[0x21] = "!";
+            lookup[0x22] = "\"";
+            lookup[0x23] = "#";
+            lookup[0x24] = "$";
+            lookup[0x25] = "%";
+            lookup[0x26] = "&";
+            lookup[0x27] = "'";
+            lookup[0x28] = "(";
+            lookup[0x29] = ")";
+            lookup[0x2A] = "*";
+            lookup[0x2B] = "+";
+            lookup[0x2C] = ",";
+            lookup[0x2D] = "-";
+            lookup[0x2E] = ".";
+            lookup[0x2F] = "/";
+            lookup[0x30] = "0";
+            lookup[0x31] = "1";
+            lookup[0x32] = "2";
+            lookup[0x33] = "3";
+            lookup[0x34] = "4";
+            lookup[0x35] = "5";
+            lookup[0x36] = "6";
+            lookup[0x37] = "7";
+            lookup[0x38] = "8";
+            lookup[0x39] = "9";
+            lookup[0x3A] = ":";
+            lookup[0x3B] = ";";
+            lookup[0x3C] = "<";
+            lookup[0x3D] = "=";
+            lookup[0x3E] = ">";
+            lookup[0x3F] = "?";
+            lookup[0x40] = "@";
+            lookup[0x41] = "A";
+            lookup[0x42] = "B";
+            lookup[0x43] = "C";
+            lookup[0x44] = "D";
+            lookup[0x45] = "E";
+            lookup[0x46] = "F";
+            lookup[0x47] = "G";
+            lookup[0x48] = "H";
+            lookup[0x49] = "I";
+            lookup[0x4A] = "J";
+            lookup[0x4B] = "K";
+            lookup[0x4C] = "L";
+            lookup[0x4D] = "M";
+            lookup[0x4E] = "N";
+            lookup[0x4F] = "O";
+            lookup[0x50] = "P";
+            lookup[0x51] = "Q";
+            lookup[0x52] = "R";
+            lookup[0x53] = "S";
+            lookup[0x54] = "T";
+            lookup[0x55] = "U";
+            lookup[0x56] = "V";
+            lookup[0x57] = "W";
+            lookup[0x58] = "X";
+            lookup[0x59] = "Y";
+            lookup[0x5A] = "Z";
+            lookup[0x5B] = "[";
+            lookup[0x5C] = "\\";
+            lookup[0x5D] = "]";
+            lookup[0x5E] = "^";
+            lookup[0x5F] = "_";
+            lookup[0x60] = "`";
+            lookup[0x61] = "a";
+            lookup[0x62] = "b";
+            lookup[0x63] = "c";
+            lookup[0x64] = "d";
+            lookup[0x65] = "e";
+            lookup[0x66] = "f";
+            lookup[0x67] = "g";
+            lookup[0x68] = "h";
+            lookup[0x69] = "i";
+            lookup[0x6A] = "j";
+            lookup[0x6B] = "k";
+            lookup[0x6C] = "l";
+            lookup[0x6D] = "m";
+            lookup[0x6E] = "n";
+            lookup[0x6F] = "o";
+            lookup[0x70] = "p";
+            lookup[0x71] = "q";
+            lookup[0x72] = "r";
+            lookup[0x73] = "s";
+            lookup[0x74] = "t";
+            lookup[0x75] = "u";
+            lookup[0x76] = "v";
+            lookup[0x77] = "w";
+            lookup[0x78] = "x";
+            lookup[0x79] = "y";
+            lookup[0x7A] = "z";
+            lookup[0x7B] = "{";
+            lookup[0x7C] = "|";
+            lookup[0x7D] = "}";
+            lookup[0x7E] = "~";
+            lookup[0x7F] = "Delete";
+        }
+        public static string charToName(char c)
+        {
+            int i = (int)c;
+            if (i < lookup.Length)
+                return lookup[i];
+            return "Unknown";
+        }
+    }
+}
