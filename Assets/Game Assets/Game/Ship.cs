@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace StarBattles
 {
-    [System.Serializable]
-    class Ship
+    [Serializable()]
+    public class Ship
     {
         public string name;
         public PieceData[] piecesData;
@@ -15,7 +18,7 @@ namespace StarBattles
         public bool allLinked;
 
         //private Piece[] pieces;
-        public Ship(string name, List<EditorPiece> editorPieces)
+        public Ship(string name, IEnumerable<EditorPiece> editorPieces)
         {
             this.name = name;
             int i = 1;
@@ -44,6 +47,11 @@ namespace StarBattles
                 pd.location.x -= minX + centroid.x;
                 pd.location.y -= minY + centroid.y;
             }
+        }
+        [OnDeserialized()]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+
         }
     }
 }

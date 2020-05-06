@@ -15,7 +15,7 @@ namespace StarBattles
         public void LoadEditor()
         {
             Debug.Log("Editor Game");
-            SceneManager.LoadScene("EditorScene");
+            Scenes.Load("EditorScene");
         }
 
         public void LoadGame()
@@ -25,7 +25,7 @@ namespace StarBattles
             {
                 Debug.Log("Create a Ship First");
             }
-            SceneManager.LoadScene("MainGame");
+            Scenes.Load("MainGame");
             //	Application.LoadLevel(1);
         }
     }

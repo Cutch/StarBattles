@@ -8,7 +8,7 @@ namespace StarBattles
 {
     public class GameShip : MonoBehaviour
     {
-        List<GameObject> ShipPieces = new List<GameObject>();
+        List<GameObject> GameShipPieces = new List<GameObject>();
         Dictionary<string, Action[]> keyWatchDown = new Dictionary<string, Action[]>();
         Dictionary<string, Action[]> keyWatchUp = new Dictionary<string, Action[]>();
         Dictionary<string, bool> keyDown = new Dictionary<string, bool>();
@@ -23,7 +23,7 @@ namespace StarBattles
         float maxRotationSpeed = 0;
         Boolean isMyShip = false;
         double shipWeight;
-        ShipPiece bridgePiece;
+        GameShipPiece bridgePiece;
         RectTransform energyPanel;
         RectTransform energyPanelBackground;
         void Update()
@@ -81,7 +81,12 @@ namespace StarBattles
             maxPositionSpeed = 0;
             maxRotationSpeed = 0;
         }
-        public GameShip loadShip(string shipName, Boolean isMyShip, Vector2 position)
+        public GameShip LoadShipByName(string shipName, Boolean isMyShip, Vector2 position)
+        {
+            Ship s = SaveLoadShip.Load(shipName);
+            return this.LoadShip(s, isMyShip, position);
+        }
+        public GameShip LoadShip(Ship s, Boolean isMyShip, Vector2 position)
         {
             this.isMyShip = isMyShip;
             if (isMyShip)
@@ -89,12 +94,11 @@ namespace StarBattles
                 energyPanel = GameObject.Find("EnergyLevel").GetComponent<RectTransform>();
                 energyPanelBackground = GameObject.Find("EnergyBackground").GetComponent<RectTransform>();
             }
-            List<ShipPiece> ShipPiecesConvert = new List<ShipPiece>();
-            ShipPieces.Clear();
+            List<GameShipPiece> GameShipPiecesConvert = new List<GameShipPiece>();
+            GameShipPieces.Clear();
             GameObject lp = gameObject;
             Vector2 centerScreen = position;
-            Ship s = SaveLoadShip.Load(shipName);
-            Dictionary<int, ShipPiece> spLookup = new Dictionary<int, ShipPiece>();
+            Dictionary<int, GameShipPiece> spLookup = new Dictionary<int, GameShipPiece>();
             var worldToPixels = ((Screen.height / 2.0f) / Camera.main.orthographicSize);
             float halfSize = Camera.main.orthographicSize;
             foreach (PieceData pd in s.piecesData)
@@ -105,24 +109,24 @@ namespace StarBattles
                 pd.location.y = (pd.location.y / pd.size.y) * (objectSprite.bounds.size.y);
                 pd.location.x = (pd.location.x / pd.size.x) * (objectSprite.bounds.size.x);
 
-                GameObject shipPiece = Instantiate(Resources.Load("PrefabPieces/ShipSprites/ShipPiece", typeof(GameObject)) as GameObject, position + pd.location, Quaternion.Euler(pd.rotation));
-                shipPiece.transform.SetParent(this.gameObject.transform);
-                ShipPiece sp = shipPiece.GetComponent<ShipPiece>();
+                GameObject GameShipPiece = Instantiate(Resources.Load("PrefabPieces/ShipSprites/ShipPiece", typeof(GameObject)) as GameObject, position + pd.location, Quaternion.Euler(pd.rotation));
+                GameShipPiece.transform.SetParent(this.gameObject.transform);
+                GameShipPiece sp = GameShipPiece.GetComponent<GameShipPiece>();
                 sp.loadFromPieceData(this, pd);
                 sp.setSpriteImage(objectSprite);
                 if (sp.classificationId == 1)
                     bridgePiece = sp;
-                ShipPieces.Add(shipPiece.gameObject);
+                GameShipPieces.Add(GameShipPiece.gameObject);
                 spLookup.Add(sp.getSaveId(), sp);
                 if (isMyShip)
-                    shipPiece.layer = LayerMask.NameToLayer("MyShip");
+                    GameShipPiece.layer = LayerMask.NameToLayer("MyShip");
                 else
-                    shipPiece.layer = LayerMask.NameToLayer("EnemyShips");
+                    GameShipPiece.layer = LayerMask.NameToLayer("EnemyShips");
             }
 
-            foreach (ShipPiece sp in spLookup.Values)
+            foreach (GameShipPiece sp in spLookup.Values)
             {
-                ShipPiece[] temp = new ShipPiece[sp.getSavedJoinedIds().Length];
+                GameShipPiece[] temp = new GameShipPiece[sp.getSavedJoinedIds().Length];
                 for (int i = 0; i < sp.getSavedJoinedIds().Length; i++)
                 {
                     int id = sp.getSavedJoinedIds()[i];
@@ -160,7 +164,7 @@ namespace StarBattles
                 }
             }
 
-            foreach (ShipPiece sp in spLookup.Values)
+            foreach (GameShipPiece sp in spLookup.Values)
             {
                 //sp.updateJoinPointsFromLoad();
             }
@@ -168,17 +172,17 @@ namespace StarBattles
             updateLevels();
             return this;
         }
-        public void splitShip(ShipPiece[] toSplit)
+        public void splitShip(GameShipPiece[] toSplit)
         {
             if (toSplit.Length == 0) return;
             GameObject ship = Instantiate(Resources.Load("PrefabPieces/ShipSprites/Ship", typeof(GameObject)) as GameObject, Vector3.zero, Quaternion.identity);
             GameShip newShip = ship.GetComponent<GameShip>();
 
-            foreach (ShipPiece j in toSplit)
+            foreach (GameShipPiece j in toSplit)
             {
-                newShip.ShipPieces.Add(j.gameObject);
+                newShip.GameShipPieces.Add(j.gameObject);
                 j.transform.SetParent(ship.transform);
-                ShipPieces.Remove(j.gameObject);
+                GameShipPieces.Remove(j.gameObject);
             }
             newShip.updateLevels();
             this.updateLevels();
@@ -187,22 +191,22 @@ namespace StarBattles
         {
             if (obj == bridgePiece.gameObject) // SHip destroyed
             {
-                foreach (GameObject o in ShipPieces)
+                foreach (GameObject o in GameShipPieces)
                     Destroy(o);
             }
             else
             {
-                ShipPiece toRemove = obj.GetComponent<ShipPiece>();
-                ShipPiece[] oldJoined = toRemove.getJoinedObjects();
+                GameShipPiece toRemove = obj.GetComponent<GameShipPiece>();
+                GameShipPiece[] oldJoined = toRemove.getJoinedObjects();
                 toRemove.removeSelfFromJoinedPiece();
-                ShipPieces.Remove(obj);
-                foreach (ShipPiece j in oldJoined)
+                GameShipPieces.Remove(obj);
+                foreach (GameShipPiece j in oldJoined)
                 {
-                    foreach (ShipPiece k in oldJoined)
+                    foreach (GameShipPiece k in oldJoined)
                     {
                         if (j != null && k != null && j != k
-                            && ShipPieces.Contains(j.gameObject)
-                            && ShipPieces.Contains(k.gameObject)
+                            && GameShipPieces.Contains(j.gameObject)
+                            && GameShipPieces.Contains(k.gameObject)
                             && !k.isConnected(j))
                         {
                             splitShip(j.getConnected());
@@ -218,27 +222,27 @@ namespace StarBattles
         {
             energyCapacity = 0;
             energyGeneration = 0;
-            foreach (GameObject g in ShipPieces)
+            foreach (GameObject g in GameShipPieces)
             {
-                ShipPiece s = g.GetComponent<ShipPiece>();
+                GameShipPiece s = g.GetComponent<GameShipPiece>();
                 energyCapacity += s.energyCapacity;
                 energyCapacity += s.energyGeneration;
                 energyGeneration += s.energyGeneration;
             }
             energyChange(0);
         }
-        public void engineFire(ShipPiece s)
+        public void engineFire(GameShipPiece s)
         {
             double speed = s.speed / 10;
             positionAccel = new Vector2((float)(speed * -Math.Sin(this.transform.eulerAngles.z * Math.PI / 180)), (float)(speed * Math.Cos(this.transform.eulerAngles.z * Math.PI / 180)));
             //Debug.Log("Called : "+positionSpeed);
             maxPositionSpeed = (float)(speed * 2);
         }
-        public void gunFire(ShipPiece s)
+        public void gunFire(GameShipPiece s)
         {
 
         }
-        public void rotorFire(ShipPiece s)
+        public void rotorFire(GameShipPiece s)
         {
             double speed = s.speed * 4;
             float angleFromCenter = (float)(Math.Atan2(s.transform.localPosition.y, s.transform.localPosition.x));
@@ -252,19 +256,19 @@ namespace StarBattles
             maxRotationSpeed = (float)(speed * 2);
             //Debug.Log(entry.Key);
         }
-        public void laserFire(ShipPiece s)
+        public void laserFire(GameShipPiece s)
         {
 
         }
-        public void rocketFire(ShipPiece s)
+        public void rocketFire(GameShipPiece s)
         {
 
         }
         public void recalculateWeight()
         {
             double weight = 0;
-            foreach (GameObject g in ShipPieces)
-                weight += g.GetComponent<ShipPiece>().weight;
+            foreach (GameObject g in GameShipPieces)
+                weight += g.GetComponent<GameShipPiece>().weight;
             shipWeight = weight;
         }
         public float getSpeed()

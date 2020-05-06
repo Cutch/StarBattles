@@ -7,7 +7,7 @@ using System;
 
 namespace StarBattles
 {
-    public class ShipPiece : MonoBehaviour
+    public class GameShipPiece : MonoBehaviour
     {
         string name;
         internal double health;
@@ -36,7 +36,7 @@ namespace StarBattles
         JoinPoint[] mountPointObjects;
         RectTransform objectRectTransform;
         Action fireFunc;
-        ShipPiece[] joinedObjects;
+        GameShipPiece[] joinedObjects;
         Sprite defaultImage;
         SpriteRenderer spriteRenderer;
         private char[] fireKeys;
@@ -67,7 +67,7 @@ namespace StarBattles
             thisId = id;
             objectId = Mathf.Max(objectId, thisId + 1);
         }
-        public ShipPiece(GameShip parentShip, PieceData dp)
+        public GameShipPiece(GameShip parentShip, PieceData dp)
         {
             loadFromPieceData(parentShip, dp);
         }
@@ -93,7 +93,7 @@ namespace StarBattles
             this.animSpritePath = sb.spritePath;
             this.mountPoints = sb.mountPoints;
             this.mountPointObjects = new JoinPoint[mountPoints.Length];
-            this.joinedObjects = new ShipPiece[mountPoints.Length];
+            this.joinedObjects = new GameShipPiece[mountPoints.Length];
             this.prefabPath = sb.prefabPath;
             this.savedJoinedPieceIds = dp.joinedPieceids;
             this.savedJoinedPointIds = dp.joinedPointIds;
@@ -105,11 +105,12 @@ namespace StarBattles
             {
                 setFireFunc();
                 animator = GetComponent<Animator>();
-                //Resources.
-                //GetComponent<Image>().sprite.texture.
-                Debug.Log((animSpritePath));
-                Debug.Log(Resources.Load(animSpritePath));
                 animator.runtimeAnimatorController = Resources.Load(animSpritePath) as RuntimeAnimatorController;
+                animator.enabled = false;
+            }
+            else
+            {
+                animator = GetComponent<Animator>();
                 animator.enabled = false;
             }
             spriteRenderer = GetComponent<SpriteRenderer>();
@@ -136,6 +137,8 @@ namespace StarBattles
         {
             spriteRenderer.sprite = objectSprite;
             defaultImage = objectSprite;
+            BoxCollider2D collider = GetComponent<BoxCollider2D>();
+            collider.size = objectSprite.bounds.size;
         }
         void setFireFunc()
         {
@@ -398,7 +401,7 @@ namespace StarBattles
             }
         }
 
-        public void setJoinedObject(int joinId, ShipPiece piece)
+        public void setJoinedObject(int joinId, GameShipPiece piece)
         {
             int id = joinIdToIndex(joinId);
             joinedObjects[id] = piece;
@@ -410,11 +413,11 @@ namespace StarBattles
             joinedObjects[id] = null;
         }
 
-        public void setJoinedObjects(ShipPiece[] g)
+        public void setJoinedObjects(GameShipPiece[] g)
         {
             joinedObjects = g;
         }
-        public ShipPiece[] getJoinedObjects()
+        public GameShipPiece[] getJoinedObjects()
         {
             return joinedObjects;
         }
@@ -445,7 +448,7 @@ namespace StarBattles
                     joinedObjects[i].removeJoinedPiece(this);
             }
         }
-        public void removeJoinedPiece(ShipPiece s)
+        public void removeJoinedPiece(GameShipPiece s)
         {
             for (int i = 0; i < joinedObjects.Length; i++)
             {
@@ -453,13 +456,13 @@ namespace StarBattles
                     joinedObjects[i] = null;
             }
         }
-        public ShipPiece[] getConnected()
+        public GameShipPiece[] getConnected()
         {
-            List<ShipPiece> connects = new List<ShipPiece>();
+            List<GameShipPiece> connects = new List<GameShipPiece>();
             getConnected(connects);
             return connects.ToArray();
         }
-        void getConnected(List<ShipPiece> moved)
+        void getConnected(List<GameShipPiece> moved)
         {
             if (!moved.Contains(this))
             {
@@ -471,11 +474,11 @@ namespace StarBattles
                 }
             }
         }
-        public bool isConnected(ShipPiece to)
+        public bool isConnected(GameShipPiece to)
         {
-            return isConnected(to, new List<ShipPiece>());
+            return isConnected(to, new List<GameShipPiece>());
         }
-        bool isConnected(ShipPiece to, List<ShipPiece> moved)
+        bool isConnected(GameShipPiece to, List<GameShipPiece> moved)
         {
             if (!moved.Contains(this))
             {
@@ -493,10 +496,10 @@ namespace StarBattles
         }
         public int countJoinedOjects()
         {
-            return countJoinedOjects(new List<ShipPiece>());
+            return countJoinedOjects(new List<GameShipPiece>());
         }
 
-        int countJoinedOjects(List<ShipPiece> moved)
+        int countJoinedOjects(List<GameShipPiece> moved)
         {
             int count = 0;
             if (!moved.Contains(this))
@@ -514,10 +517,10 @@ namespace StarBattles
 
         public void offsetGroup(Vector3 offset)
         {
-            offsetGroup(offset, new List<ShipPiece>());
+            offsetGroup(offset, new List<GameShipPiece>());
         }
 
-        void offsetGroup(Vector3 offset, List<ShipPiece> moved)
+        void offsetGroup(Vector3 offset, List<GameShipPiece> moved)
         {
             if (!moved.Contains(this))
             {

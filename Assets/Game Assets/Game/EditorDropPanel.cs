@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 namespace StarBattles
 {
     public class EditorDropPanel : MonoBehaviour, IDropHandler, IPointerClickHandler
@@ -165,7 +166,6 @@ namespace StarBattles
             GameObject lp = editorView;
             RectTransform view = lp.GetComponent<RectTransform>();
             Vector2 centerScreen = new Vector2(view.rect.width / 2, view.rect.height / 2);
-            Debug.Log(centerScreen);
             Ship s = SaveLoadShip.Load(shipName);
             Dictionary<int, EditorPiece> epLookup = new Dictionary<int, EditorPiece>();
             foreach (PieceData pd in s.piecesData)
@@ -207,17 +207,25 @@ namespace StarBattles
             loadPanel.SetActive(true);
             string[] shipList = SaveLoadShip.LoadList();
             GameObject loadList = GameObject.Find("LoadBoxList");
+            GameObject loadBoxLoadButton = GameObject.Find("LoadBoxLoadButton");
+            loadBoxLoadButton.SetActive(false);
             foreach (RectTransform txt in loadList.GetComponentsInChildren<RectTransform>())
             {
                 if (txt.gameObject.name == "LoadListLine(Clone)")
                     Destroy(txt.gameObject);
             }
+            GameObject firstObj = null;
             foreach (string shipName in shipList)
             {
                 GameObject go = Instantiate(Resources.Load("PrefabPieces/Editor/LoadListLine", typeof(GameObject)) as GameObject, Vector3.zero, Quaternion.identity);
                 go.GetComponentInChildren<Text>().text = shipName;
                 go.GetComponent<RectTransform>().SetParent(loadList.GetComponent<RectTransform>());
+                if(firstObj == null)
+                    firstObj = go;
             }
+            firstObj.GetComponent<EditorLoadLineSelect>().select();
+            if (shipList.Length > 0)
+                loadBoxLoadButton.SetActive(true);
         }
         void clearPanel()
         {
@@ -342,6 +350,13 @@ namespace StarBattles
         {
             editorPieces.Remove(selectedEditorPiece.gameObject);
             Destroy(selectedEditorPiece.gameObject);
+        }
+        public void testShip()
+        {
+            Scenes.Load("MainGame", new Dictionary<string, object>(){
+                {"ship", new Ship("Test Ship", editorPieces.Select(x => x.GetComponent<EditorPiece>()))},
+                {"test", true}
+                });
         }
         public void rotateShip()
         {

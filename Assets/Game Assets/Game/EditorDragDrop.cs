@@ -7,7 +7,7 @@ namespace StarBattles
     {
         public GameObject toDrop;
         public static EditorDragDrop itemBeingDragged;
-        public GameObject overlayObject;
+        internal GameObject overlayObject;
         Vector3 startPosition;
         Transform startParent;
 

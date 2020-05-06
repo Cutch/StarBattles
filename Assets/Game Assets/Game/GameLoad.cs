@@ -12,9 +12,19 @@ namespace StarBattles
         GameShip myShip = null;
         void Start()
         {
-
-            loadShip(SaveLoadShip.LoadList()[0], Vector2.zero, true);
-            loadShip(SaveLoadShip.LoadList()[0], new Vector2(0, 15), false);
+            Debug.Log(Scenes.getParam("test"));
+            Debug.Log(Scenes.getParam("ship"));
+            if (Scenes.getParam("test") != null)
+            {
+                Debug.Log("here 1");
+                loadShip((Ship)Scenes.getParam("ship"), Vector2.zero, true);
+            }
+            else
+            {
+                Debug.Log("here 2");
+                loadShip(SaveLoadShip.LoadList()[0], Vector2.zero, true);
+                loadShip(SaveLoadShip.LoadList()[0], new Vector2(0, 15), false);
+            }
         }
         public void validateLoad()
         {
@@ -29,13 +39,27 @@ namespace StarBattles
         {
             //loadPanel.SetActive(false);
         }
-        void loadShip(string shipName, Vector2 startPos, bool isMyShip = true)
+        void loadShip(Ship shipData, Vector2 startPos, bool isMyShip = true)
         {
             if (isMyShip)
                 if (myShip != null)
                     ships.Remove(myShip);
             GameObject ship = Instantiate(Resources.Load("PrefabPieces/ShipSprites/Ship", typeof(GameObject)) as GameObject, (Vector3)startPos, Quaternion.identity);
-            GameShip newShip = ship.GetComponent<GameShip>().loadShip(shipName, isMyShip, startPos);
+            GameShip newShip = ship.GetComponent<GameShip>().LoadShip(shipData, isMyShip, startPos);
+            if (isMyShip)
+            {
+                myShip = newShip;
+            }
+        }
+        void loadShip(string shipName, Vector2 startPos, bool isMyShip = true)
+        {
+            Debug.Log(shipName);
+            if (isMyShip)
+                if (myShip != null)
+                    ships.Remove(myShip);
+            GameObject ship = Instantiate(Resources.Load("PrefabPieces/ShipSprites/Ship", typeof(GameObject)) as GameObject, (Vector3)startPos, Quaternion.identity);
+            Debug.Log(ship.GetComponent<GameShip>());
+            GameShip newShip = ship.GetComponent<GameShip>().LoadShipByName(shipName, isMyShip, startPos);
             if (isMyShip)
             {
                 myShip = newShip;
@@ -75,10 +99,10 @@ namespace StarBattles
             double health = 0;
             double speed = 0;
             GameObject lp = editorView;
-            foreach (ShipPiece sp in lp.GetComponentsInChildren<ShipPiece>())
+            foreach (GameShipPiece sp in lp.GetComponentsInChildren<GameShipPiece>())
             {
                 //Debug.Log(sp);
-                //ShipPiece sp = go.GetComponent<ShipPiece>();
+                //GameShipPiece sp = go.GetComponent<GameShipPiece>();
                 energyCapacity += sp.energyCapacity;
                 energyCost += sp.energyCost;
                 energyGeneration += sp.energyGeneration;

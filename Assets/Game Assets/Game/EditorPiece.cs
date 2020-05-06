@@ -293,7 +293,7 @@ namespace StarBattles
         }
         public JoinPoint getJoinPointById(int id)
         {
-            Debug.Log("Got Id : " + id + " becomes... " + joinIdToIndex(id) + " size : " + mountPointObjects.Length);
+            //Debug.Log("Got Id : " + id + " becomes... " + joinIdToIndex(id) + " size : " + mountPointObjects.Length);
             return mountPointObjects[joinIdToIndex(id)];
         }
 

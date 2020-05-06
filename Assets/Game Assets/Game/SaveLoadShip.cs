@@ -68,6 +68,7 @@ namespace StarBattles
                 FileStream file = File.Open(Application.persistentDataPath + "/savedShips.shp", FileMode.Open);
                 SaveLoadShip.savedShips = (List<Ship>)bf.Deserialize(file);
                 file.Close();
+
                 foreach (Ship s in savedShips)
                 {
                     shipNames.Add(s.name);

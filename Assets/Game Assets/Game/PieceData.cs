@@ -3,9 +3,14 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using StarBattles;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
+using System;
+
 namespace StarBattles
 {
-    [System.Serializable]
+    [Serializable()]
     public class PieceData
     {
         internal int shipObjectId;
@@ -17,7 +22,7 @@ namespace StarBattles
         internal int[] joinedPointIds;
         internal int saveId;
         internal int objectId;
-
+        internal int version = 1;
 
         public PieceData(EditorPiece ep)
         {
@@ -44,6 +49,40 @@ namespace StarBattles
                 }
             }
         }
-
+        public override string ToString()
+        {
+            string name = DB.getObjectById(shipObjectId).name;
+            
+            return "name: " + name + "\n" +
+             "objectId: " + objectId + "\n" +
+             "shipObjectId: " + shipObjectId + "\n" +
+             "location: " + location + "\n" +
+             "rotation: " + rotation + "\n" +
+             "size: " + size + "\n" +
+             "joinedPieceids: " + string.Join(", ", joinedPieceids) + "\n" +
+             "joinedPointIds: " + string.Join(", ", joinedPointIds) + "\n" +
+             "joinedPieceidsL: " + joinedPieceids.Length + "\n" +
+             "joinedPointIdsL: " + joinedPointIds.Length + "\n" +
+             "saveId: " + saveId + "\n";
+        }
+        void arrayPad<T>(ref T[] a, int size)
+        {
+            if(a.Length == size)
+            {
+                return;
+            }
+            Array.Resize(ref a, size);
+        }
+        void v1Align()
+        {
+            DB.ShipBean sb = DB.getObjectById(shipObjectId);
+            arrayPad(ref this.joinedPieceids, sb.mountPoints.Length);
+            arrayPad(ref this.joinedPointIds, sb.mountPoints.Length);
+        }
+        [OnDeserialized()]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+            v1Align();
+        }
     }
 }
