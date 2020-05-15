@@ -62,6 +62,10 @@ namespace StarBattles
         {
             return thisId;
         }
+        public GameShip getParentShip()
+        {
+            return parentShip;
+        }
         public void setId(int id)
         {
             thisId = id;
@@ -123,14 +127,20 @@ namespace StarBattles
             if (this.currentHealth <= 0)
             {
                 parentShip.recalculateWeight();
-                this.destroyed = true;
+                parentShip.recalculateHealth();
+                this.destroyed = true; 
                 parentShip.destroyPiece(gameObject);
 
             }
         }
         public void adjustHealthBar()
         {
-            SpriteRenderer s = this.gameObject.transform.Find("HealthBar").GetComponent<SpriteRenderer>();
+            Transform healthBar = this.gameObject.transform.Find("HealthBar");
+            if(currentHealth < health)
+            {
+                healthBar.gameObject.SetActive(true);
+            }
+            SpriteRenderer s = healthBar.GetComponent<SpriteRenderer>();
             s.size = new Vector2((float)(currentHealth / health), 0.2f);
         }
         public void setSpriteImage(Sprite objectSprite)
@@ -191,22 +201,24 @@ namespace StarBattles
                 lr = fireObject.GetComponent<LineRenderer>();
                 fireObject.transform.SetParent(this.transform);
                 laserDirection = new Vector2(-sin, cos);
-                RaycastHit2D rh = Physics2D.Raycast(top, new Vector2(-sin, cos), (float)beamDistance, LayerMask.GetMask("EnemyShips"));
+                RaycastHit2D rh = Physics2D.Raycast(top, new Vector2(-sin, cos), (float)beamDistance, LayerMask.GetMask(new string[] { "EnemyShips", "StaticObject" }));
                 lr.SetPosition(1, laserDirection * (float)((rh.collider == null || beamDistance < rh.distance) ? beamDistance : rh.distance));
                 if (rh.collider != null)
                 {
-                    rh.collider.SendMessage("ApplyDamage", Time.deltaTime * this.damage);
+                    if(rh.collider.gameObject.layer == LayerMask.NameToLayer("EnemyShips"))
+                        rh.collider.SendMessage("ApplyDamage", Time.deltaTime * this.damage);
                     laserHitEmitter.transform.SetPositionAndRotation(rh.point, Quaternion.Euler(0, 0, (float)(Math.Atan2(-rh.normal.y, -rh.normal.x) * 180 / Math.PI + 90)));
                     laserHitEmitter.SetActive(true);
                 }
             }
             else
             {
-                RaycastHit2D rh = Physics2D.Raycast(top, new Vector2(-sin, cos), (float)beamDistance, LayerMask.GetMask("EnemyShips"));
+                RaycastHit2D rh = Physics2D.Raycast(top, new Vector2(-sin, cos), (float)beamDistance, LayerMask.GetMask(new string[] { "EnemyShips", "StaticObject" }));
                 lr.SetPosition(1, laserDirection * (float)((rh.collider == null || beamDistance < rh.distance) ? beamDistance : rh.distance));
                 if (rh.collider != null)
                 {
-                    rh.collider.SendMessage("ApplyDamage", Time.deltaTime * this.damage);
+                    if (rh.collider.gameObject.layer == LayerMask.NameToLayer("EnemyShips"))
+                        rh.collider.SendMessage("ApplyDamage", Time.deltaTime * this.damage);
                     laserHitEmitter.transform.SetPositionAndRotation(rh.point, Quaternion.Euler(0, 0, (float)(Math.Atan2(-rh.normal.y, -rh.normal.x) * 180 / Math.PI + 90)));
                     laserHitEmitter.SetActive(true);
                 }
@@ -256,7 +268,7 @@ namespace StarBattles
                 DamageObject dmgo = Instantiate(Resources.Load("PrefabPieces/Objects/Bullet",
                     typeof(GameObject)) as GameObject, top, Quaternion.Euler(0, 0, (float)(Math.Atan2(sin, cos) * 180 / Math.PI))).GetComponent<DamageObject>();
                 dmgo.damage = damage * firePerSecond;
-                dmgo.positionSpeed = new Vector2(-sin, cos) * 40 + parentShip.positionSpeed;
+                dmgo.positionSpeed = new Vector2(-sin, cos) * 40 + parentShip.getVelocity();
                 lastFiredTime = (lastTime + firePerSecond);
             }
         }

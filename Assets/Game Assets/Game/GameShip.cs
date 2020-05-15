@@ -15,17 +15,19 @@ namespace StarBattles
         double energyCapacity = 0;
         double energyGeneration = 0;
         double currentEnergy = 0;
+        double startingHealth = 0;
+        double currentHealth = 0;
         Vector2 positionAccel = Vector2.zero;
-        Vector3 rotationAccel = Vector3.zero;
-        internal Vector2 positionSpeed = Vector2.zero;
-        internal Vector3 rotationSpeed = Vector3.zero;
+        float rotationAccel = 0;
         float maxPositionSpeed = 0;
         float maxRotationSpeed = 0;
         Boolean isMyShip = false;
-        double shipWeight;
         GameShipPiece bridgePiece;
         RectTransform energyPanel;
+        Rigidbody2D body;
         RectTransform energyPanelBackground;
+        RectTransform healthPanel;
+        RectTransform healthPanelBackground;
         void Update()
         {
             // Get Energy
@@ -62,22 +64,20 @@ namespace StarBattles
             // Calculate and change position
             if (this.positionAccel.magnitude > 0)
             {
-                this.positionSpeed += this.positionAccel * frameSeconds;
-                if (this.positionSpeed.magnitude > maxPositionSpeed)
-                    this.positionSpeed *= maxPositionSpeed / this.positionSpeed.magnitude;
+                body.velocity += this.positionAccel * frameSeconds;
+                if (body.velocity.magnitude > maxPositionSpeed)
+                    body.velocity *= maxPositionSpeed / body.velocity.magnitude;
             }
-            if (Math.Abs(this.rotationAccel.z) > 0)
+            if (Math.Abs(this.rotationAccel) > 0)
             {
-                this.rotationSpeed += this.rotationAccel * frameSeconds;
-                if (Math.Abs(this.rotationSpeed.z) > maxRotationSpeed)
-                    this.rotationSpeed.z *= maxRotationSpeed / Math.Abs(this.rotationSpeed.z);
+                body.angularVelocity += this.rotationAccel * frameSeconds;
+                if (Math.Abs(body.angularVelocity) > maxRotationSpeed)
+                    body.angularVelocity *= maxRotationSpeed / Math.Abs(body.angularVelocity);
             }
-            this.gameObject.transform.position += (Vector3)this.positionSpeed * frameSeconds;
-            this.gameObject.transform.Rotate(this.rotationSpeed * frameSeconds);
             if (isMyShip)
                 Camera.main.transform.position = this.gameObject.transform.position;
             positionAccel = Vector3.zero;
-            rotationAccel = Vector3.zero;
+            rotationAccel = 0;
             maxPositionSpeed = 0;
             maxRotationSpeed = 0;
         }
@@ -93,6 +93,10 @@ namespace StarBattles
             {
                 energyPanel = GameObject.Find("EnergyLevel").GetComponent<RectTransform>();
                 energyPanelBackground = GameObject.Find("EnergyBackground").GetComponent<RectTransform>();
+
+                healthPanel = GameObject.Find("HealthLevel").GetComponent<RectTransform>();
+                healthPanelBackground = GameObject.Find("HealthBackground").GetComponent<RectTransform>();
+                
             }
             List<GameShipPiece> GameShipPiecesConvert = new List<GameShipPiece>();
             GameShipPieces.Clear();
@@ -118,6 +122,7 @@ namespace StarBattles
                     bridgePiece = sp;
                 GameShipPieces.Add(GameShipPiece.gameObject);
                 spLookup.Add(sp.getSaveId(), sp);
+                startingHealth += sp.health;
                 if (isMyShip)
                     GameShipPiece.layer = LayerMask.NameToLayer("MyShip");
                 else
@@ -163,6 +168,7 @@ namespace StarBattles
                     }
                 }
             }
+            body = GetComponent<Rigidbody2D>();
 
             foreach (GameShipPiece sp in spLookup.Values)
             {
@@ -215,6 +221,7 @@ namespace StarBattles
                 }
                 Destroy(obj);
                 recalculateWeight();
+                recalculateHealth();
 
             }
         }
@@ -251,9 +258,9 @@ namespace StarBattles
             float anglePower = (float)Math.Cos(angleFromCenter + (s.transform.localEulerAngles.z * Math.PI / 180));
             float distancePower = distanceFromCenter / 2;
             //Debug.Log(distanceFromCenter);
-            rotationAccel = new Vector3(0, 0, (float)(anglePower * speed * distancePower));
+            rotationAccel = (float)(anglePower * speed * distancePower);
             //Debug.Log("Called : " + rotationSpeed);
-            maxRotationSpeed = (float)(speed * 2);
+            maxRotationSpeed = (float)(s.speed * 5);
             //Debug.Log(entry.Key);
         }
         public void laserFire(GameShipPiece s)
@@ -266,22 +273,42 @@ namespace StarBattles
         }
         public void recalculateWeight()
         {
-            double weight = 0;
+            float weight = 0;
             foreach (GameObject g in GameShipPieces)
-                weight += g.GetComponent<GameShipPiece>().weight;
-            shipWeight = weight;
+                weight += (float)g.GetComponent<GameShipPiece>().weight;
+            body.mass = weight;
+        }
+        public void recalculateHealth()
+        {
+            double health = 0;
+            foreach (GameObject g in GameShipPieces)
+                health += g.GetComponent<GameShipPiece>().health;
+            currentHealth = health;
+            healthChange();
         }
         public float getSpeed()
         {
-            return positionSpeed.magnitude;
+            return body.velocity.magnitude;
+        }
+        public Vector2 getVelocity()
+        {
+            return body.velocity;
+        }
+        public void setVelocity(Vector2 velocity)
+        {
+            body.velocity = velocity;
         }
         public float getDirection()
         {
-            return (float)Math.Atan2(positionSpeed.y, positionSpeed.x);
+            return (float)Math.Atan2(body.velocity.y, body.velocity.x);
         }
         public float getWeight()
         {
-            return (float)this.shipWeight;
+            return (float)this.body.mass;
+        }
+        public Rigidbody2D getRigedBody()
+        {
+            return this.body;
         }
         internal bool energyChange(double energy)
         {
@@ -298,6 +325,15 @@ namespace StarBattles
             {
                 //Debug.Log(energyPanelBackground.rect.height * (1 - (currentEnergy / energyCapacity)));
                 energyPanel.offsetMax = new Vector2(0, -(float)(energyPanelBackground.rect.height * (1 - (currentEnergy / energyCapacity))));
+            }
+            return true;
+        }
+        internal bool healthChange()
+        {
+            if (isMyShip)
+            {
+                //Debug.Log(energyPanelBackground.rect.height * (1 - (currentEnergy / energyCapacity)));
+                healthPanel.offsetMax = new Vector2(0, -(float)(healthPanelBackground.rect.height * (1 - (currentHealth / startingHealth))));
             }
             return true;
         }

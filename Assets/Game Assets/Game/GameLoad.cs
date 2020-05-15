@@ -12,16 +12,12 @@ namespace StarBattles
         GameShip myShip = null;
         void Start()
         {
-            Debug.Log(Scenes.getParam("test"));
-            Debug.Log(Scenes.getParam("ship"));
             if (Scenes.getParam("test") != null)
             {
-                Debug.Log("here 1");
                 loadShip((Ship)Scenes.getParam("ship"), Vector2.zero, true);
             }
             else
             {
-                Debug.Log("here 2");
                 loadShip(SaveLoadShip.LoadList()[0], Vector2.zero, true);
                 loadShip(SaveLoadShip.LoadList()[0], new Vector2(0, 15), false);
             }
@@ -53,12 +49,10 @@ namespace StarBattles
         }
         void loadShip(string shipName, Vector2 startPos, bool isMyShip = true)
         {
-            Debug.Log(shipName);
             if (isMyShip)
                 if (myShip != null)
                     ships.Remove(myShip);
             GameObject ship = Instantiate(Resources.Load("PrefabPieces/ShipSprites/Ship", typeof(GameObject)) as GameObject, (Vector3)startPos, Quaternion.identity);
-            Debug.Log(ship.GetComponent<GameShip>());
             GameShip newShip = ship.GetComponent<GameShip>().LoadShipByName(shipName, isMyShip, startPos);
             if (isMyShip)
             {
