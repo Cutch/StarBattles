@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 
-namespace StarBattles
-{
+namespace StarBattles{
     public class GameShipPiece : MonoBehaviour
     {
         string name;

@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using UnityEngine;
-namespace StarBattles
-{
+namespace StarBattles{
     sealed class Vector3SerializationSurrogate : ISerializationSurrogate
     {
 

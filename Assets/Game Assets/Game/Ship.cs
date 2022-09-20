@@ -6,8 +6,7 @@ using UnityEngine;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace StarBattles
-{
+namespace StarBattles{
     [Serializable()]
     public class Ship
     {

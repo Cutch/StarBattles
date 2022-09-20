@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-namespace StarBattles
-{
-    class KeyNames
+namespace StarBattles{
+    public class KeyNames
     {
 
         static string[] lookup = new string[128];

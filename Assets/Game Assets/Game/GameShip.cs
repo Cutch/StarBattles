@@ -4,8 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
-namespace StarBattles
-{
+namespace StarBattles{
     public class GameShip : MonoBehaviour
     {
         List<GameObject> GameShipPieces = new List<GameObject>();

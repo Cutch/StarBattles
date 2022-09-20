@@ -1,0 +1,446 @@
+{
+    "shipBeans": [{
+            "name": "Std. Bridge",
+            "health": 1500.0,
+            "weight": 5.0,
+            "energyCapacity": 200.0,
+            "energyGeneration": 0.0,
+            "energyCost": 0.0,
+            "damage": 0.0,
+            "speed": 0.0,
+            "range": 0.0,
+            "fireable": false,
+            "classificationId": 1,
+            "prefabPath": "PrefabPieces/ShipItems/Bridge",
+            "spritePath": "",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }, {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0
+                }
+            ]
+        }, {
+            "name": "Battery (Small)",
+            "health": 300.0,
+            "weight": 2.0,
+            "energyCapacity": 300.0,
+            "energyGeneration": 0.0,
+            "energyCost": 0.0,
+            "damage": 0.0,
+            "speed": 0.0,
+            "range": 0.0,
+            "fireable": false,
+            "classificationId": 2,
+            "prefabPath": "PrefabPieces/ShipItems/Battery",
+            "spritePath": "",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 90.0
+                }, {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0
+                }, {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 270.0
+                }, {
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }
+            ]
+        }, {
+            "name": "Battery (Large)",
+            "health": 1500.0,
+            "weight": 6.0,
+            "energyCapacity": 1000.0,
+            "energyGeneration": 0.0,
+            "energyCost": 0.0,
+            "damage": 0.0,
+            "speed": 0.0,
+            "range": 0.0,
+            "fireable": false,
+            "classificationId": 2,
+            "prefabPath": "PrefabPieces/ShipItems/LargeBattery",
+            "spritePath": "",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 90.0
+                }, {
+                    "x": 1.0,
+                    "y": 0.66,
+                    "z": 90.0
+                }, {
+                    "x": 1.0,
+                    "y": -0.66,
+                    "z": 90.0
+                }, {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 270.0
+                }, {
+                    "x": -1.0,
+                    "y": 0.66,
+                    "z": 270.0
+                }, {
+                    "x": -1.0,
+                    "y": -0.66,
+                    "z": 270.0
+                }, {
+                    "x": 0.5,
+                    "y": -1.0,
+                    "z": 180.0
+                }, {
+                    "x": -0.5,
+                    "y": -1.0,
+                    "z": 180.0
+                }, {
+                    "x": 0.5,
+                    "y": 1.0,
+                    "z": 0.0
+                }, {
+                    "x": -0.5,
+                    "y": 1.0,
+                    "z": 0.0
+                }
+            ]
+        }, {
+            "name": "Solar Panel",
+            "health": 300.0,
+            "weight": 2.0,
+            "energyCapacity": 0.0,
+            "energyGeneration": 20.0,
+            "energyCost": 0.0,
+            "damage": 0.0,
+            "speed": 0.0,
+            "range": 0.0,
+            "fireable": false,
+            "classificationId": 2,
+            "prefabPath": "PrefabPieces/ShipItems/Solar",
+            "spritePath": "",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 90.0
+                }, {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0
+                }, {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 270.0
+                }, {
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }
+            ]
+        }, {
+            "name": "Rectangle Truss",
+            "health": 900.0,
+            "weight": 3.0,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 0.0,
+            "damage": 0.0,
+            "speed": 0.0,
+            "range": 0.0,
+            "fireable": false,
+            "classificationId": 3,
+            "prefabPath": "PrefabPieces/ShipItems/RectangleTruss",
+            "spritePath": "",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 90.0
+                }, {
+                    "x": 1.0,
+                    "y": 0.66,
+                    "z": 90.0
+                }, {
+                    "x": 1.0,
+                    "y": -0.66,
+                    "z": 90.0
+                }, {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 270.0
+                }, {
+                    "x": -1.0,
+                    "y": 0.66,
+                    "z": 270.0
+                }, {
+                    "x": -1.0,
+                    "y": -0.66,
+                    "z": 270.0
+                }, {
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }, {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0
+                }
+            ]
+        }, {
+            "name": "Square Truss",
+            "health": 300.0,
+            "weight": 1.0,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 0.0,
+            "damage": 0.0,
+            "speed": 0.0,
+            "range": 0.0,
+            "fireable": false,
+            "classificationId": 3,
+            "prefabPath": "PrefabPieces/ShipItems/SquareTruss",
+            "spritePath": "",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 90.0
+                }, {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0
+                }, {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 270.0
+                }, {
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }
+            ]
+        }, {
+            "name": "Triangle Truss",
+            "health": 150.0,
+            "weight": 0.5,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 0.0,
+            "damage": 0.0,
+            "speed": 0.0,
+            "range": 0.0,
+            "fireable": false,
+            "classificationId": 3,
+            "prefabPath": "PrefabPieces/ShipItems/TriangleTruss",
+            "spritePath": "",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 90.0
+                }, {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 315.0
+                }, {
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }
+            ]
+        }, {
+            "name": "Armour",
+            "health": 1300.0,
+            "weight": 5.0,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 0.0,
+            "damage": 0.0,
+            "speed": 0.0,
+            "range": 0.0,
+            "fireable": false,
+            "classificationId": 3,
+            "prefabPath": "PrefabPieces/ShipItems/Armour",
+            "spritePath": "",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 90.0
+                }, {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0
+                }, {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 270.0
+                }, {
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }
+            ]
+        }, {
+            "name": "Std. Engine",
+            "health": 500.0,
+            "weight": 3.0,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 20.0,
+            "damage": 0.0,
+            "speed": 100.0,
+            "range": 0.0,
+            "fireable": true,
+            "classificationId": 4,
+            "prefabPath": "PrefabPieces/ShipItems/Engine",
+            "spritePath": "Images/EngineSprite_1",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 0.05,
+                    "y": 1.0,
+                    "z": 0.0
+                }
+            ]
+        }, {
+            "name": "Std. Rotor Jets",
+            "health": 300.0,
+            "weight": 0.5,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 10.0,
+            "damage": 0.0,
+            "speed": 30.0,
+            "range": 0.0,
+            "fireable": true,
+            "classificationId": 5,
+            "prefabPath": "PrefabPieces/ShipItems/RotorJets",
+            "spritePath": "Images/rotorJets_1",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0
+                }
+            ]
+        }, {
+            "name": "Slvr. Rotor Jets",
+            "health": 400.0,
+            "weight": 0.75,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 15.0,
+            "damage": 0.0,
+            "speed": 60.0,
+            "range": 0.0,
+            "fireable": true,
+            "classificationId": 5,
+            "prefabPath": "PrefabPieces/ShipItems/RotorJetsSilver",
+            "spritePath": "Images/rotorJetsP_1",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0
+                }
+            ]
+        }, {
+            "name": "Railgun",
+            "health": 200.0,
+            "weight": 3.0,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 5.0,
+            "damage": 0.0,
+            "speed": 15.0,
+            "range": 35.0,
+            "fireable": true,
+            "classificationId": 6,
+            "prefabPath": "PrefabPieces/ShipItems/Gun",
+            "spritePath": "",
+            "reloadTime": 0.7,
+            "mountPoints": [{
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }, {
+                    "x": -1.0,
+                    "y": -0.6,
+                    "z": 270.0
+                }, {
+                    "x": -1.0,
+                    "y": -0.6,
+                    "z": 90.0
+                }
+            ]
+        }, {
+            "name": "Laser",
+            "health": 200.0,
+            "weight": 4.0,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 20.0,
+            "damage": 0.0,
+            "speed": 80.0,
+            "range": 20.0,
+            "fireable": true,
+            "classificationId": 6,
+            "prefabPath": "PrefabPieces/ShipItems/Laser",
+            "spritePath": "",
+            "reloadTime": 0.0,
+            "mountPoints": [{
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }, {
+                    "x": -1.0,
+                    "y": -0.6,
+                    "z": 270.0
+                }, {
+                    "x": -1.0,
+                    "y": -0.6,
+                    "z": 90.0
+                }
+            ]
+        }, {
+            "name": "Rocket Launcher",
+            "health": 500.0,
+            "weight": 4.0,
+            "energyCapacity": 0.0,
+            "energyGeneration": 0.0,
+            "energyCost": 50.0,
+            "damage": 0.0,
+            "speed": 120.0,
+            "range": 100.0,
+            "fireable": true,
+            "classificationId": 6,
+            "prefabPath": "PrefabPieces/ShipItems/RocketLauncher",
+            "spritePath": "",
+            "reloadTime": 1.5,
+            "mountPoints": [{
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": 180.0
+                }, {
+                    "x": -1.0,
+                    "y": -0.1,
+                    "z": 270.0
+                }, {
+                    "x": -1.0,
+                    "y": -0.1,
+                    "z": 90.0
+                }
+            ]
+        }
+    ]
+}
